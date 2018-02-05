@@ -53,7 +53,7 @@ RUN mkdir /usr/local/share/images
 # Load example images
 RUN cp -R tests/img/* /usr/local/share/images/
 
-RUN echo "0 0 * * * /opt/loris/bin/loris-http_cache_clean.sh" > crontab
+RUN echo "0 0 * * * /opt/loris/bin/loris-http_cache_clean.sh" > ./crontab
 ADD crontab ./crontab
 
 RUN ./setup.py install 
