@@ -1,0 +1,1 @@
+0 0 * * * /opt/loris/bin/loris-http_cache_clean.sh

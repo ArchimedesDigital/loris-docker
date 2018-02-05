@@ -13,6 +13,8 @@ RUN pip install --upgrade pip
 RUN pip2.7 install Werkzeug
 RUN pip2.7 install configobj
 
+ADD crontab ./crontab
+
 # Install kakadu
 WORKDIR /usr/local/lib
 RUN wget --no-check-certificate https://github.com/loris-imageserver/loris/raw/development/lib/Linux/x86_64/libkdu_v74R.so \
@@ -53,8 +55,6 @@ RUN mkdir /usr/local/share/images
 # Load example images
 RUN cp -R tests/img/* /usr/local/share/images/
 
-RUN echo "0 0 * * * /opt/loris/bin/loris-http_cache_clean.sh" > ./crontab
-ADD crontab ./crontab
 
 RUN ./setup.py install 
 COPY loris2.conf etc/loris2.conf
