@@ -53,6 +53,9 @@ RUN mkdir /usr/local/share/images
 # Load example images
 RUN cp -R tests/img/* /usr/local/share/images/
 
+RUN echo "0 0 * * * /opt/loris/bin/loris-http_cache_clean.sh" > crontab
+ADD crontab ./crontab
+
 RUN ./setup.py install 
 COPY loris2.conf etc/loris2.conf
 
@@ -61,8 +64,6 @@ WORKDIR /opt/loris/loris
 # bind test server to 0.0.0.0
 RUN sed -i -- 's/localhost/0.0.0.0/g' webapp.py
 RUN sed -i 's/app = create_app(debug=True)/app = create_app(debug=False, config_file_path=conf_fp)/g' webapp.py
-
-RUN crontab -l | { cat; echo "0 0 * * * /opt/loris/bin/loris-http_cache_clean.sh"; } | crontab -
 
 EXPOSE 5004
 CMD ["python", "webapp.py"]
